@@ -1,0 +1,7 @@
+<suite name="Final project suite"  parallel="tests">
+    <test name="Test 1">
+        <classes>
+            <class name="TestClasses.OrangeHrmTest"></class>
+        </classes>
+    </test>
+</suite>
