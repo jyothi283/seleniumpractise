@@ -11,14 +11,16 @@ import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
 
 import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
-
+import static org.testng.Assert.assertTrue;
 
 public class OrangeHrmTest {
     private static WebDriver driver;
@@ -43,15 +45,14 @@ public class OrangeHrmTest {
     public void verifyLoginValidInputs() {
         test = extent.createTest("Verify login with valid inputs");
         driver.get(baseUrl);
-        test.log(Status.INFO, "website loaded");
         LoginPage.enterLoginUserName(driver, "Admin");
-        test.log(Status.INFO, "username entered");
         LoginPage.enterLoginPassWord(driver, "admin123");
-        test.log(Status.INFO, "password entered");
         LoginPage.clickLoginButton(driver);
         test.log(Status.INFO, "login button clicked");
         LoginPage.checkLogin(driver);
-        test.log(Status.INFO, "login successfull");
+        Assert.assertEquals(driver.getCurrentUrl(), "https://opensource-demo.orangehrmlive.com/web/index.php/dashboard/index");
+
+        test.log(Status.INFO, " Navigated to expected URL after successful login");
     }
 
     //test case to verify add employee in pim page with valid inputs
@@ -59,20 +60,15 @@ public class OrangeHrmTest {
     public void verifyAddEmployeePim() {
         test = extent.createTest("verify add employee in pim page with valid inputs");
         DashBoardPage.clickPimLink(driver);
-        test.log(Status.INFO, "clicked on pim link");
         PimPage.clickAddButton(driver);
-        test.log(Status.INFO, "clicked on add button");
         PimPage.enterEmployeeFirstName(driver, "jyothi");
-        test.log(Status.INFO, "employee first name entered");
         PimPage.enterEmployeeMiddleName(driver, "abc");
-        test.log(Status.INFO, "employee middle name entered");
         PimPage.enterEmployeeLastName(driver, "xyz");
-        test.log(Status.INFO, "employee last name entered");
         PimPage.clickSaveButton(driver);
         test.log(Status.INFO, "clicked on save button");
-        PimPage.checkAddEmployee(driver);
-        test.log(Status.INFO, "employee addition successfull");
-
+        WebElement test_success = PimPage.checkAddEmployee(driver);
+        Assert.assertTrue(test_success.isDisplayed());
+        test.log(Status.INFO, " employee addition successfull");
 
     }
 
@@ -81,12 +77,12 @@ public class OrangeHrmTest {
     public void verifySearchEmployeePim() {
         test = extent.createTest("verify search employee in pim page with employee name");
         DashBoardPage.clickPimLink(driver);
-        test.log(Status.INFO, "clicked on pim link");
         PimPage.enterEmployeeName(driver, "jyothi abc");
-        test.log(Status.INFO, "entered employee name");
         PimPage.clickSearchButton(driver);
-        PimPage.checkSearchEmployeeByName(driver, "jyothi abc");
-        test.log(Status.INFO, "employee record found");
+        //PimPage.checkSearchEmployeeByName(driver, "jyothi abc");
+        WebElement search_success=PimPage.checkSearchEmployeeByName(driver, "jyothi abc");
+        assertTrue(search_success.isDisplayed());
+        test.log(Status.INFO, " employee record found");
 
     }
 
@@ -95,21 +91,16 @@ public class OrangeHrmTest {
     public void verifyDeleteEmployeePim() {
         test = extent.createTest("verify delete employee record in pim page with employee name");
         DashBoardPage.clickPimLink(driver);
-        test.log(Status.INFO, "clicked on pim link");
         PimPage.enterEmployeeName(driver, "jyothi abc");
-        test.log(Status.INFO, "entered employee name");
         PimPage.clickSearchButton(driver);
         PimPage.checkSearchEmployeeByName(driver, "jyothi abc");
-        test.log(Status.INFO, "employee record found");
 
         PimPage.clickDeleteButton(driver);
         test.log(Status.INFO, "clicked on delete button");
         PimPage.clickDeleteConfButton(driver);
-        test.log(Status.INFO, "clicked on delete confirmation button");
-        PimPage.checkDeletionPim(driver);
-        test.log(Status.INFO, "deletion successfull");
-
-
+        WebElement DeleteE_element = PimPage.checkDeletionPim(driver);
+        assertTrue(DeleteE_element.isDisplayed());
+        test.log(Status.INFO, " Deletion successfull");
     }
 
     //testcase to verify add user in user management
@@ -117,25 +108,21 @@ public class OrangeHrmTest {
     public void verifyAddUser() throws InterruptedException {
         test = extent.createTest("Verify add user in user management");
         DashBoardPage.clickAdminLink(driver);
-        test.log(Status.INFO, "clicked on admin link");
         AdminPage.clickAddButton(driver);
-        test.log(Status.INFO, "clicked on add button");
         AdminPage.selectUserRole(driver);
-        test.log(Status.INFO, "user role selected");
         AdminPage.enterEmployeeName(driver, "jyothi abc");
         test.log(Status.INFO, "employee name entered");
         AdminPage.selectStatus(driver);
-        test.log(Status.INFO, "employee status selected");
+
         AdminPage.enterUserName(driver, "jyothi12");
-        test.log(Status.INFO, "employee username entered");
         AdminPage.enterPassWord(driver, "Test1234");
-        test.log(Status.INFO, "password entered");
         AdminPage.enterConfirmPassWord(driver, "Test1234");
-        test.log(Status.INFO, "confirm password entered");
         AdminPage.clickSaveButton(driver);
         test.log(Status.INFO, "clicked on save button");
         AdminPage.confirmSaved(driver);
-        test.log(Status.INFO, "details saved");
+        WebElement addE_success=AdminPage.confirmSaved(driver);
+        assertTrue(addE_success.isDisplayed());
+        test.log(Status.INFO, " User details saved");
     }
 
     @Test(priority = 5)
@@ -143,11 +130,12 @@ public class OrangeHrmTest {
         test = extent.createTest("Verify search user");
         DashBoardPage.clickAdminLink(driver);
         AdminPage.enterSystemUserName(driver, "jyothi12");
-        test.log(Status.INFO, " system username entered");
         AdminPage.clickSystemSearchButton(driver);
         test.log(Status.INFO, "clicked on search button");
-        AdminPage.TableElementCheck(driver, "jyothi12");
-        test.log(Status.INFO, "element found in the table");
+
+        WebElement SearchU_element=AdminPage.TableElementCheck(driver, "jyothi12");
+        assertTrue(SearchU_element.isDisplayed());
+        test.log(Status.INFO, " User found in the table");
     }
     @AfterMethod
     public void attachScreenshot(ITestResult testResult) throws IOException {

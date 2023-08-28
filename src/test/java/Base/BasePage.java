@@ -16,7 +16,7 @@ public  class BasePage {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofMillis(timeoutMillis));
         wait.until(ExpectedConditions.elementToBeClickable(element));
         element.click();
-        System.out.println("Element was clicked");
+
     }
 
 
@@ -25,7 +25,7 @@ public  class BasePage {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofMillis(timeoutMillis));
         wait.until(ExpectedConditions.visibilityOf(element));
         element.click();
-        System.out.println("Element was clicked");
+
 
     }
 }

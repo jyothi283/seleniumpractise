@@ -1,10 +1,13 @@
 package PageClasses;
 
 import Base.BasePage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 public class DashBoardPage extends BasePage {
+    private static final Logger log = LogManager.getLogger(DashBoardPage.class.getName());
     WebDriver driver;
     public static WebElement element = null;
     // Locators of the Elements present in this Page
@@ -24,14 +27,16 @@ public class DashBoardPage extends BasePage {
     public static void clickAdminLink(WebDriver driver) {
         AdminLink(driver);
         clickWhenReady(driver, element, 2000);
-        System.out.println("Clicked on the  admin link");
+        //System.out.println("Clicked on the  admin link");
+        log.info("Clicked on the admin link");
     }
 
     public static void clickPimLink(WebDriver driver) {
         PimLink(driver);
         clickWhenReady(driver, element, 2000);
-        System.out.println("Clicked on the  admin link");
+       // System.out.println("Clicked on the  admin link");
+        log.info("Clicked on the pim link");
+    }
     }
 
 
-}

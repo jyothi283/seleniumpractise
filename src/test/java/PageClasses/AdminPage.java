@@ -1,5 +1,7 @@
 package PageClasses;
 import Base.BasePage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -7,6 +9,7 @@ import org.openqa.selenium.WebElement;
 import static org.testng.Assert.assertTrue;
 
 public class AdminPage extends BasePage {
+    private static final Logger log = LogManager.getLogger(AdminPage.class.getName());
     WebDriver driver;
     public static WebElement element = null;
     // Locators of the Elements present in this Page
@@ -155,18 +158,15 @@ public class AdminPage extends BasePage {
     public static void clickAddButton(WebDriver driver) {
         addButton(driver);
         clickWhenReady(driver, element, 2000);
-        System.out.println("Clicked on the add button");
+        log.info("Clicked on the add button");
     }
 
     public static void selectUserRole(WebDriver driver) {
         element = userRole(driver);
-
         clickWhenReady(driver, element, 2000);
-        System.out.println("Clicked on the user role");
-
         WebElement e = driver.findElement(By.xpath(USER_DROPDOWN));
         clickWhenReady(driver, e, 2000);
-        System.out.println("Clicked on the admin");
+        log.info("Clicked on the admin");
     }
 
     public static void enterEmployeeName(WebDriver driver, String name) {
@@ -178,7 +178,6 @@ public class AdminPage extends BasePage {
     }
     public static void selectStatus(WebDriver driver) {
         element = status(driver);
-
         clickWhenReady(driver, element, 2000);
         WebElement e = driver.findElement(By.xpath(STATUS_DROPDOWN));
         clickWhenReady(driver, e, 2000);
@@ -191,41 +190,42 @@ public class AdminPage extends BasePage {
         // element.click();
         clickWhenReady(driver, element, 3000);
         element.sendKeys(name);
-        System.out.println("name entered as: " + name);
+        log.info("name entered as: " + name);
     }
 
-    public static void enterPassWord(WebDriver driver, String name) {
+    public static void enterPassWord(WebDriver driver, String password) {
         element = passWord(driver);
-        //element.click();
+
         clickWhenReady(driver, element, 2000);
-        element.sendKeys(name);
-        System.out.println("password entered as: " + name);
+        element.sendKeys(password);
+
+        log.info("password entered as: " + password);
     }
 
     public static void enterConfirmPassWord(WebDriver driver, String name) {
         element = confirmPassWord(driver);
         clickWhenReady(driver, element, 2000);
         element.sendKeys(name);
-        System.out.println("password entered as: " + name);
+
     }
 
     public static void clickSaveButton(WebDriver driver) {
         saveButton(driver);
         clickWhenReady(driver, element, 2000);
-        System.out.println("Clicked on the add button");
+
     }
 
     public static void enterSystemUserName(WebDriver driver, String name) {
         element = systemUserName(driver);
         clickWhenReady(driver, element, 2000);
         element.sendKeys(name);
-        System.out.println("system username entered as: " + name);
+
     }
 
     public static void clickSystemUserRole(WebDriver driver) {
         systemUserRole(driver);
         clickWhenReady(driver, element, 2000);
-        System.out.println("Clicked on the add button");
+
     }
 
     public static void selectSystemUserRole(WebDriver driver) {
@@ -233,18 +233,18 @@ public class AdminPage extends BasePage {
 
         clickWhenReady(driver, element, 2000);
 
-        System.out.println("Clicked on the admin");
+
     }
 
     public static void clickSystemEmployee(WebDriver driver, String name) {
         element = systemEmployee(driver);
         clickWhenReady(driver, element, 2000);
-        System.out.println("Clicked on the employee dropdown");
+
         element.sendKeys(name);
 
         WebElement element2 = systemEmployeeName(driver);
 
-        //clickWhenReady(driver,element2,2000);
+
         element2.click();
         System.out.println("Clicked on the employee name");
     }
@@ -258,7 +258,7 @@ public class AdminPage extends BasePage {
 
         clickWhenReady(driver, element, 2000);
 
-        System.out.println("selected the system status");
+
     }
 
 
@@ -266,26 +266,27 @@ public class AdminPage extends BasePage {
     public static void clickSystemSearchButton(WebDriver driver) {
         systemSearchButton(driver);
         clickWhenReady(driver, element, 2000);
-        System.out.println("Clicked on the submit button");
+
+        log.debug("Clicked on the submit button");
     }
 
-    public static void confirmSaved(WebDriver driver) {
+    public static WebElement confirmSaved(WebDriver driver) {
         confirmation(driver);
         assertTrue(element.isDisplayed());
-        System.out.println("details saved");
 
-
+        log.debug("details saved");
+        return element;
     }
 
-    public static void TableElementCheck(WebDriver driver, String username) {
+    public static WebElement TableElementCheck(WebDriver driver, String username) {
 
        element=TableElement(driver);
        String xpathExpression = "//div[contains(text(), '" + username + "')]";
         clickWhenvisible(driver,element,2000);
         WebElement cellElement = element.findElement(By.xpath(xpathExpression));
-        assertTrue(cellElement.isDisplayed());
-        System.out.println("Element found in the table.");
+       // assertTrue(cellElement.isDisplayed());
 
+        return cellElement;
     }
 }
 
