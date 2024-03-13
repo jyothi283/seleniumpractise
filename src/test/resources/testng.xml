@@ -1,0 +1,7 @@
+<suite name="RestAssuredPrac suite">
+    <test name="Test 1">
+        <classes>
+            <class name="GetApiTest"></class>
+        </classes>
+    </test>
+</suite>
